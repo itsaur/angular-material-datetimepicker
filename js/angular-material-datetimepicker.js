@@ -748,7 +748,7 @@
       }
     },
     selectPM: function () {
-      if (this.isHourAvailable(13) || this.isHourAvailable(24)) {
+      if (this.isHourAvailable(12) || this.isHourAvailable(24)) {
         if (this.currentDate.hour() < 12) {
           this.selectDate(this.currentDate.add(12, 'hours'));
         }
