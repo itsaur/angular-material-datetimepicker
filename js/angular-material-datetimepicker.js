@@ -895,8 +895,7 @@
             calendar.toDay = function (i) {
               return moment(parseInt(i), "d")
                 .locale(picker.params.lang)
-                .format("dd")
-                .substring(0, 1);
+                .format("dd");
             };
 
             calendar.isInRange = function (date) {
@@ -931,12 +930,8 @@
               return m && today.date() === m.date() && today.month() === m.month() && today.year() === m.year();
             };
           }],
-          template: 
-          '<md-virtual-repeat-container md-top-index="cal.topIndex" class="months">' +
-          '<div md-virtual-repeat="idx in ::cal.months" md-auto-shrink md-item-size="' + ITEM_HEIGHT + '">' +
-          '  <div mdc-datetime-picker-calendar-month idx="idx"></div>' +
-          '</div>' +
-          '</md-virtual-repeat-container>'
+          template:
+              '<div class="months" mdc-datetime-picker-calendar-month idx="cal.topIndex"></div></div>'
         };
       }])
     .directive('mdcDatetimePickerCalendarMonth', ['$compile',
@@ -981,7 +976,6 @@
           require: '^mdcDatetimePickerCalendar',
           restrict: 'AE',
           template: 
-            '<div class="dtp-picker-month">{{month.name}}</div>' +
             '<table class="table dtp-picker-days">' +
             '  <thead>' +
             '    <tr>' +
