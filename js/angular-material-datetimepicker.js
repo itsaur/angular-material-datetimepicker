@@ -6,7 +6,7 @@
 
   var mdAccesTime = 'data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjMDAwMDAwIiBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHdpZHRoPSIyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4gICAgPHBhdGggZD0iTTExLjk5IDJDNi40NyAyIDIgNi40OCAyIDEyczQuNDcgMTAgOS45OSAxMEMxNy41MiAyMiAyMiAxNy41MiAyMiAxMlMxNy41MiAyIDExLjk5IDJ6TTEyIDIwYy00LjQyIDAtOC0zLjU4LTgtOHMzLjU4LTggOC04IDggMy41OCA4IDgtMy41OCA4LTggOHoiLz4gICAgPHBhdGggZD0iTTAgMGgyNHYyNEgweiIgZmlsbD0ibm9uZSIvPiAgICA8cGF0aCBkPSJNMTIuNSA3SDExdjZsNS4yNSAzLjE1Ljc1LTEuMjMtNC41LTIuNjd6Ii8+PC9zdmc+';
   var mdCalendar = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMTkgM2gtMVYxaC0ydjJIOFYxSDZ2Mkg1Yy0xLjExIDAtMS45OS45LTEuOTkgMkwzIDE5YzAgMS4xLjg5IDIgMiAyaDE0YzEuMSAwIDItLjkgMi0yVjVjMC0xLjEtLjktMi0yLTJ6bTAgMTZINVY4aDE0djExek03IDEwaDV2NUg3eiIvPjwvc3ZnPg==';
-  
+
   var VIEW_STATES = {DATE: 0, HOUR: 1, MINUTE: 2};
 
   var css = function (el, name) {
@@ -14,7 +14,7 @@
     return ('getComputedStyle' in window) ? window.getComputedStyle(el[0])[name] : el.css(name);
   };
 
-  var template = 
+  var template =
     '<md-dialog class="dtp" layout="column">' +
     '    <md-dialog-content class="dtp-content">' +
     '        <div class="dtp-date-view">' +
@@ -54,8 +54,8 @@
     '            </div>' + //start time
     '            <div class="dtp-time" ng-if="picker.params.time&&!picker.params.date">' +
     '                <div class="dtp-actual-maxtime">' +
-    '                    <span ng-if="!picker.params.seconds"><span ng-class="{selected:picker.currentView===picker.VIEWS.HOUR}">{{picker.currentNearestMinute().format(picker.params.shortTime ? "hh":"HH")}}</span>:<span ng-class="{selected: picker.currentView===picker.VIEWS.MINUTE}">{{picker.currentNearestMinute().format("mm")}}</span></span>'+
-    '                    <span ng-if="picker.params.seconds"><span ng-class="{selected:picker.currentView===picker.VIEWS.HOUR}">{{picker.currentNearestMinute().format(picker.params.shortTime ? "hh":"HH")}}</span>:<span ng-class="{selected: picker.currentView===picker.VIEWS.MINUTE}">{{picker.currentNearestMinute().format("mm")}}</span>:<span ng-class="{selected: picker.currentView===picker.VIEWS.SECOND}">{{picker.currentNearestMinute().format("ss")}}</span></span>'+
+    '                    <span ng-if="!picker.params.seconds"><span ng-class="{selected:picker.currentView===picker.VIEWS.HOUR}" ng-click="picker.initHours()">{{picker.currentNearestMinute().format(picker.params.shortTime ? "hh":"HH")}}</span>:<span ng-class="{selected: picker.currentView===picker.VIEWS.MINUTE}" ng-click="picker.initMinutes()">{{picker.currentNearestMinute().format("mm")}}</span></span>'+
+    '                    <span ng-if="picker.params.seconds"><span ng-class="{selected:picker.currentView===picker.VIEWS.HOUR}" ng-click="picker.initHours()">{{picker.currentNearestMinute().format(picker.params.shortTime ? "hh":"HH")}}</span>:<span ng-class="{selected: picker.currentView===picker.VIEWS.MINUTE}" ng-click="picker.initMinutes()">{{picker.currentNearestMinute().format("mm")}}</span>:<span ng-class="{selected: picker.currentView===picker.VIEWS.SECOND}" ng-click="picker.initSeconds()">{{picker.currentNearestMinute().format("ss")}}</span></span>'+
     '                    <span class="dtp-actual-meridien" ng-if="picker.params.shortTime">{{picker.currentDate.format("A")}}</span>'+
     '                </div>' +
     '            </div>' +
@@ -202,16 +202,16 @@
                 if (ngModel.$options.timezone) offset = ngModel.$options.timezone;
               }
               if (offset==='utc' || offset==='UTC') offset = 0;
-      
+
               ngModel.$formatters.push(function (value) {
                 if (typeof value === 'undefined') return;
                 var m = moment(value);
                 return m.isValid() ? m.format(scope.format) : '';
               });
-              
+
               ngModel.$parsers.push(function (value) {
                 if (typeof value === 'undefined') return;
-                
+
                 var m = moment(value, scope.format);
                 if (offset !== undefined) m.utcOffset(offset, m._tzm === undefined);
                 if (scope.minDate) ngModel.$setValidity('min', !m.isBefore(scope.minDate));
@@ -220,7 +220,7 @@
 
                 return m.isValid() ? (m._isUTC ? m : m.toDate()) : '';
               });
-              
+
             }
 
             function openCalendar(e) {
@@ -257,7 +257,7 @@
 
               if (!options.templateUrl) dialogOptions.template = template;
               else dialogOptions.templateUrl = options.templateUrl;
-              
+
               $mdDialog.show(dialogOptions).then(function(v) {
 
                 if (offset !== undefined) v.utcOffset(offset, true);
@@ -284,7 +284,7 @@
                 element.on('focus', openCalendar);
               }
             }
-            
+
             if (scope.showIcon) {
               element.addClass('dtp-no-msclear dtp-input');
               var calendarButton =
@@ -571,10 +571,10 @@
       }
     },
     openMenu: function ($mdMenu, ev) {
-      $mdMenu.open(ev); 
+      $mdMenu.open(ev);
     },
     monthsAvailable: function () {
-      var monthsArr = [], 
+      var monthsArr = [],
           _date = moment(this.currentDate);
 
       for (var m = 0; m < 12; m++) {
@@ -602,17 +602,17 @@
       if (_maxDate && _minDate) {
         len = _maxDate - _minDate;
         startYear = _minDate;
-      } else if (_minDate) { 
+      } else if (_minDate) {
         len = 115;
         startYear = _minDate;
-      } else if (_maxDate) { 
+      } else if (_maxDate) {
         len = 30;
         startYear = _maxDate - len;
       } else {
         len = 60;
         startYear = _date - len/2;
       }
-     
+
       for (var i=0; i < len; i++) {
         yearsArr.push(startYear+i);
       }
@@ -730,7 +730,7 @@
             break;
           case VIEW_STATES.SECOND:
             this.initMinutes();
-            break;  
+            break;
         }
       }
       else {
@@ -840,7 +840,7 @@
             };
 
             if (angular.version.major === 1 && angular.version.minor < 5) this.$onInit();
-          
+
             calendar.getItemAtIndex = function (index) {
               var month = ((index + 1) % 12) || 12;
               var year = YEAR_MIN + Math.floor(index / 12);
@@ -975,7 +975,7 @@
           },
           require: '^mdcDatetimePickerCalendar',
           restrict: 'AE',
-          template: 
+          template:
             '<table class="table dtp-picker-days">' +
             '  <thead>' +
             '    <tr>' +
@@ -1017,7 +1017,7 @@
     .directive('mdcDatetimePickerClock', ['$timeout',
       function ($timeout) {
 
-        var template = 
+        var template =
           '<div id="timePicker" class="dtp-picker-clock"><span ng-if="!points||points.length < 1">&nbsp;</span>' +
           '<div ng-repeat="point in points" class="dtp-picker-time noselect" ng-style="point.style">' +
           '   <a href="#" id="time-{{mode}}-{{point.display}}" mdc-dtp-noclick ng-class="{selected:point.value===currentValue}" class="dtp-select-hour" ng-click="setTime(point.value)" ng-if="pointAvailable(point)">{{point.display}}</a>' +
@@ -1071,7 +1071,7 @@
                 if (!scope.pointAvailable({value: val})) return;
                 picker.currentDate.second(val);
               }
-              
+
             };
 
             var isTouchSupported = ('ontouchstart' in window) ? true : false,
@@ -1088,10 +1088,10 @@
               clientRect = closestTarget.getClientRects()[0];
 
               if (isTouchSupported) e = e.changedTouches[0];
-              
+
               var x = ((closestTarget.offsetWidth / 2) - (e.pageX - clientRect.left)),
                   y = ((e.pageY - clientRect.top) - (closestTarget.offsetHeight / 2));
-              
+
               var ray = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
               var deg = Math.round((Math.atan2(x, y) * (180 / Math.PI)));
 
@@ -1109,7 +1109,7 @@
             });
 
             scope.$on("$destroy", function() {
-                element.off(EVENTS.POINTER_MOVE, onMoveEvent); 
+                element.off(EVENTS.POINTER_MOVE, onMoveEvent);
             });
 
             var exec = function () {
@@ -1269,7 +1269,7 @@
                 if (picker.params.autoOk) picker.ok(); // single click
               } else if (!secondMode) {
                 if (val === scope.currentValue && !picker.params.seconds) picker.ok(); // double click
-    
+
                 picker.currentDate.minute(val);
                 if (!picker.params.seconds) {
                   picker.currentDate.second(0);
