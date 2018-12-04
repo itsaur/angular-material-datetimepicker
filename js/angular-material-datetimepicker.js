@@ -212,13 +212,13 @@
               ngModel.$parsers.push(function (value) {
                 if (typeof value === 'undefined') return;
 
-                var m = moment(value, scope.format);
+                var m = moment(value, scope.format, true);
                 if (offset !== undefined) m.utcOffset(offset, m._tzm === undefined);
                 if (scope.minDate) ngModel.$setValidity('min', !m.isBefore(scope.minDate));
                 if (scope.maxDate) ngModel.$setValidity('max', !m.isAfter(scope.maxDate));
                 ngModel.$setValidity('format', moment(value, scope.format, true).isValid());
 
-                return m.isValid() ? (m._isUTC ? m : m.toDate()) : '';
+                return m.isValid() ? (m._isUTC ? m : m.toDate()) : value;
               });
 
             }
